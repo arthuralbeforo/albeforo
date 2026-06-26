@@ -11,7 +11,7 @@ com troca de cor (Bambu Lab + AMS, ou troca manual de filamento por camada).
 O QR é **gerado a partir da URL real** como geometria de módulos nítidos, então
 continua escaneável depois de impresso. Leitura validada na arte e na geometria final.
 
-- Conteúdo: `https://app.tremdeminas.uk/api/tables/a9ca755a-b451-4786-91cb-a4630bbb17b2/qr`
+- Conteúdo: `https://app.tremdeminas.uk/menu/a9ca755a-b451-4786-91cb-a4630bbb17b2`
 - 37 × 37 módulos · módulo de ~0,97 mm nesta escala (lê bem de perto)
 
 ## Especificações de impressão
@@ -77,7 +77,7 @@ As 3 partes da placa compartilham a **mesma origem**, então encaixam perfeitame
 ```bash
 pip install pillow numpy opencv-python-headless trimesh shapely mapbox_earcut scipy qrcode manifold3d matplotlib
 cd cad/src
-python3 build_cad.py "https://app.tremdeminas.uk/api/tables/<ID>/qr" 70 105 saida
+python3 build_cad.py "https://app.tremdeminas.uk/menu/<ID>" 70 105 saida
 python3 build_stand.py
 ```
 
