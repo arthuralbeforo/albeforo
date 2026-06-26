@@ -1,72 +1,85 @@
-# Order & Pay — Placa QR para impressão 3D (Trem de Minas)
+# Order & Pay — Placa QR + suporte para impressão 3D (Trem de Minas)
 
-Arquivo CAD multicor da placa **"Order & Pay"** com QR code **funcional**, pronto
-para impressão 3D em impressora com troca de cor (Bambu Lab + AMS, ou troca manual
-de filamento por camada).
+Arquivos CAD multicor da placa **"Order & Pay"** com QR code **funcional**, mais um
+**suporte (cavalete)** para deixá-la em pé no balcão/mesa. Pronto para impressão 3D
+com troca de cor (Bambu Lab + AMS, ou troca manual de filamento por camada).
 
 ![mockup](preview/mockup.png)
 
 ## QR code
 
-O QR foi **decodificado da arte original e reconstruído em geometria nítida** (módulos
-quadrados exatos), então continua escaneável depois de impresso.
+O QR é **gerado a partir da URL real** como geometria de módulos nítidos, então
+continua escaneável depois de impresso. Leitura validada na arte e na geometria final.
 
-- Versão: **5 (37 × 37 módulos)**
-- Conteúdo: `https://app.tremdeminas.uk/menu/bbeb2bbe-7acb-4cd2-9b18-e6262fc62ee5`
-- Validado: a leitura foi confirmada na arte composta e na geometria final.
+- Conteúdo: `https://app.tremdeminas.uk/api/tables/a9ca755a-b451-4786-91cb-a4630bbb17b2/qr`
+- 37 × 37 módulos · módulo de ~0,97 mm nesta escala (lê bem de perto)
 
 ## Especificações de impressão
 
 | Item | Valor |
 |------|-------|
-| Tamanho | **120 × 180 mm** |
-| Espessura total | **3,0 mm** (base marrom 2,4 mm + camada de cor 0,6 mm) |
+| Tamanho da placa | **70 × 105 mm** |
+| Espessura da placa | **2,6 mm** (base marrom 2,0 mm + camada de cor 0,6 mm) |
 | Cores (AMS) | Marrom (fundo), Branco (texto e QR), Laranja (detalhes) |
-| Orientação | Deitado, **com a frente para cima** (face colorida = topo) |
+| Orientação da placa | Deitada, **frente para cima** (face colorida no topo) |
+| Suporte | Peça separada, ~78 × 42 × 27 mm, canaleta inclinada ~13° |
 | Filamento sugerido | PLA (texturizado) |
-| Tempo estimado | 2 h – 3 h |
 
 > **Dica:** para melhor leitura do QR, mantenha bom contraste e evite filamentos
 > muito brilhantes na face.
+
+## Suporte
+
+A placa **encaixa em pé** na canaleta inclinada do suporte (cavalete). Imprima o
+suporte separado, em pé na orientação modelada (não precisa de cor — pode ser só
+marrom). Veja o perfil lateral:
+
+![suporte](preview/suporte_perfil.png)
 
 ## Arquivos
 
 ```
 cad/
-├── order_pay_qr.3mf        ← projeto completo (3 cores juntas) — abrir no Bambu Studio
+├── order_pay_plaque.3mf       ← só a placa (3 cores) — abrir no Bambu Studio
+├── order_pay_set_70x105.3mf   ← placa (3 cores) + suporte juntos na mesa
 ├── stl/
-│   ├── 01_marrom_base.stl  ← base + fundo + módulos escuros do QR  → MARROM
-│   ├── 02_branco.stl       ← texto, painel e módulos claros do QR  → BRANCO
-│   └── 03_laranja.stl      ← "COUNTER | BALCÃO", "Faça seu pedido", pílula @  → LARANJA
+│   ├── 01_marrom_base.stl     ← base + fundo + módulos escuros do QR  → MARROM
+│   ├── 02_branco.stl          ← texto, painel e módulos claros do QR  → BRANCO
+│   ├── 03_laranja.stl         ← "COUNTER | BALCÃO", "Faça seu pedido", pílula @  → LARANJA
+│   └── 04_suporte.stl         ← cavalete/base (imprimir separado)
 ├── preview/
-│   ├── design_flat.png     ← arte plana (vista de topo)
-│   └── mockup.png          ← mockup da placa
+│   ├── mockup.png             ← mockup da placa
+│   ├── design_flat.png        ← arte plana (vista de topo)
+│   └── suporte_perfil.png     ← perfil lateral do suporte + placa encaixada
 └── src/
-    ├── build_cad.py        ← script que gera a geometria
-    └── label_canvas.npy    ← mapa de cores 120×180 usado pelo script
+    ├── build_cad.py           ← gera a placa: python3 build_cad.py "<URL>" 70 105 final
+    ├── build_stand.py         ← gera o suporte
+    └── arte_original.png      ← arte de referência usada pelo script
 ```
 
-Todos os STLs compartilham a **mesma origem**, então encaixam perfeitamente.
+As 3 partes da placa compartilham a **mesma origem**, então encaixam perfeitamente.
 
 ## Como imprimir
 
-### Opção A — 3MF (recomendado)
-1. Abra `order_pay_qr.3mf` no **Bambu Studio** / OrcaSlicer.
-2. As três partes (`brown`, `white`, `orange`) já vêm posicionadas. Atribua um
-   filamento a cada uma: marrom, branco e laranja.
-3. Mantenha a orientação **frente para cima** (a face com o QR no topo da mesa).
-4. Fatie e imprima.
+### Placa (multicor)
+1. Abra `order_pay_plaque.3mf` no **Bambu Studio** / OrcaSlicer.
+2. Atribua um filamento a cada parte: `brown` → marrom, `white` → branco,
+   `orange` → laranja.
+3. Mantenha **frente para cima** (face do QR no topo da mesa). Fatie e imprima.
 
-### Opção B — STLs separados
-1. Importe os 3 STLs **de uma vez** (eles se alinham sozinhos).
-2. Combine como **um único objeto** (parts) e atribua a cor de cada part.
-3. Imprima deitado, frente para cima.
+### Suporte
+- Imprima `stl/04_suporte.stl` separado (cor à sua escolha). Depois é só **encaixar
+  a placa na canaleta**.
+- Para imprimir os dois de uma vez, use `order_pay_set_70x105.3mf`.
 
-## Regenerar a geometria
+## Regenerar / trocar o QR
 
 ```bash
-pip install pillow numpy opencv-python-headless trimesh shapely mapbox_earcut scipy
-cd cad/src && python3 build_cad.py
+pip install pillow numpy opencv-python-headless trimesh shapely mapbox_earcut scipy qrcode manifold3d matplotlib
+cd cad/src
+python3 build_cad.py "https://app.tremdeminas.uk/api/tables/<ID>/qr" 70 105 saida
+python3 build_stand.py
 ```
 
-O QR pode ser alterado regenerando `label_canvas.npy` (ver histórico do projeto).
+Troque a URL e o tamanho (largura altura em mm) conforme necessário — o QR é gerado
+e validado automaticamente.
