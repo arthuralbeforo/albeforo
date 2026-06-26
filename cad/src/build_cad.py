@@ -49,7 +49,7 @@ if len(rp):
     ptop=rp.min()
     y0=max(0,int(ptop-14*ppm)); y1=int(ptop-1.0*ppm)   # subtitle band above QR panel
     band=(canvas[y0:y1]==1).astype(np.uint8)
-    band=cv2.dilate(band,cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3)),iterations=2)
+    band=cv2.dilate(band,cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3)),iterations=1)
     seg=canvas[y0:y1]; seg[band>0]=1; canvas[y0:y1]=seg
     print(f"thickened subtitle band rows {y0}..{y1}")
 
