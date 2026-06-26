@@ -23,7 +23,13 @@ continua escaneável depois de impresso. Leitura validada na arte e na geometria
 | Cores (AMS) | Marrom (fundo), Branco (texto e QR), Laranja (detalhes) |
 | Orientação da placa | Deitada, **frente para cima** (face colorida no topo) |
 | Suporte | Peça separada, ~78 × 42 × 27 mm, canaleta inclinada ~13° |
+| Bico recomendado | **0,2 mm** (a frase pequena tem traço ~0,27 mm) |
 | Filamento sugerido | PLA (texturizado) |
+
+> **Bico / nozzle:** no slicer, selecione o perfil de **bico 0,2 mm** (camada ~0,1 mm).
+> Com bico de 0,4 mm a frase pequena "Scan, order, relax / We bring it to your
+> table" sai picotada, porque o traço (~0,27 mm) é menor que o bico. Os textos
+> maiores e o QR imprimem bem em qualquer bico.
 
 > **Dica:** para melhor leitura do QR, mantenha bom contraste e evite filamentos
 > muito brilhantes na face.

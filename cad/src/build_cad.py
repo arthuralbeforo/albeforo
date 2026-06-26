@@ -6,7 +6,7 @@ from shapely import simplify
 URL = sys.argv[1]
 Wmm = float(sys.argv[2]); Hmm = float(sys.argv[3])
 OUT = sys.argv[4] if len(sys.argv)>4 else 'v2'
-ppm = 16.0                                    # higher res for small part
+ppm = 24.0                                    # higher res for small part
 
 # ---- classify original poster art ----
 img=cv2.imread('poster.png'); H0,W0=img.shape[:2]
@@ -41,6 +41,17 @@ for r in range(n):
         if mat[r,c]==1:
             p0=tl+ex*c+ey*r; p1=tl+ex*(c+1)+ey*r; p2=tl+ex*(c+1)+ey*(r+1); p3=tl+ex*c+ey*(r+1)
             cv2.fillConvexPoly(canvas,np.array([p0,p1,p2,p3],np.int32),0)
+
+# ---- thicken the tiny subtitle so it prints on a 0.2mm nozzle ----
+white=(canvas==1).astype(np.uint8)
+frac=white.mean(1); rp=np.where(frac>0.4)[0]
+if len(rp):
+    ptop=rp.min()
+    y0=max(0,int(ptop-14*ppm)); y1=int(ptop-1.0*ppm)   # subtitle band above QR panel
+    band=(canvas[y0:y1]==1).astype(np.uint8)
+    band=cv2.dilate(band,cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3)),iterations=2)
+    seg=canvas[y0:y1]; seg[band>0]=1; canvas[y0:y1]=seg
+    print(f"thickened subtitle band rows {y0}..{y1}")
 
 # verify decode
 pal=np.array([[31,17,10],[245,232,219],[160,88,41]],np.uint8)
