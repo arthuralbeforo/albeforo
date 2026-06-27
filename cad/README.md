@@ -12,24 +12,24 @@ O QR é **gerado a partir da URL real** como geometria de módulos nítidos, ent
 continua escaneável depois de impresso. Leitura validada na arte e na geometria final.
 
 - Conteúdo: `https://app.tremdeminas.uk/menu/a9ca755a-b451-4786-91cb-a4630bbb17b2`
-- 37 × 37 módulos · módulo de ~1,65 mm nesta escala (lê fácil)
+- 37 × 37 módulos · módulo de ~1,38 mm nesta escala (lê fácil)
 
 ## Especificações de impressão
 
 | Item | Valor |
 |------|-------|
-| Tamanho da placa | **120 × 180 mm** |
+| Tamanho da placa | **100 × 150 mm** |
 | Espessura da placa | **2,6 mm** (base marrom 2,0 mm + camada de cor 0,6 mm) |
 | Cores (AMS) | Marrom (fundo), Branco (texto e QR), Laranja (detalhes) |
 | Orientação da placa | Deitada, **frente para cima** (face colorida no topo) |
-| Suporte | Peça separada, ~106 × 61 × 43 mm, canaleta inclinada ~13° |
-| Bico recomendado | **0,2 mm** (a frase pequena tem traço ~0,30 mm) |
+| Suporte | Peça separada, ~88 × 51 × 36 mm, canaleta inclinada ~13° |
+| Bico recomendado | **0,2 mm** (frase pequena em Lora BoldItalic, traço ~0,4 mm) |
 | Filamento sugerido | PLA (texturizado) |
 
-> **Bico / nozzle:** no slicer, selecione o perfil de **bico 0,2 mm** (camada ~0,1 mm).
-> Com bico de 0,4 mm a frase pequena "Scan, order, relax / We bring it to your
-> table" sai picotada, porque o traço (~0,30 mm) é menor que o bico. Os textos
-> maiores e o QR imprimem bem em qualquer bico.
+> **Fonte da frase pequena:** "Scan, order, relax / We bring it to your table"
+> foi reescrita em **Lora BoldItalic** (mais encorpada e maior) no lugar da fonte
+> fina original, que ficava picotada/feia na impressão. Agora imprime limpo até
+> em bico de 0,4 mm; com 0,2 mm o acabamento fica ainda melhor.
 
 > **Dica:** para melhor leitura do QR, mantenha bom contraste e evite filamentos
 > muito brilhantes na face.
@@ -47,7 +47,7 @@ marrom). Veja o perfil lateral:
 ```
 cad/
 ├── order_pay_plaque.3mf       ← só a placa (3 cores) — abrir no Bambu Studio
-├── order_pay_set_120x180.3mf  ← placa (3 cores) + suporte juntos na mesa
+├── order_pay_set_100x150.3mf  ← placa (3 cores) + suporte juntos na mesa
 ├── stl/
 │   ├── 01_marrom_base.stl     ← base + fundo + módulos escuros do QR  → MARROM
 │   ├── 02_branco.stl          ← texto, painel e módulos claros do QR  → BRANCO
@@ -58,8 +58,9 @@ cad/
 │   ├── design_flat.png        ← arte plana (vista de topo)
 │   └── suporte_perfil.png     ← perfil lateral do suporte + placa encaixada
 └── src/
-    ├── build_cad.py           ← gera a placa: python3 build_cad.py "<URL>" 120 180 final
+    ├── build_cad.py           ← gera a placa: python3 build_cad.py "<URL>" 100 150 final
     ├── build_stand.py         ← gera o suporte
+    ├── fonts/Lora-BoldItalic.ttf ← fonte da frase pequena
     └── arte_original.png      ← arte de referência usada pelo script
 ```
 
@@ -76,15 +77,15 @@ As 3 partes da placa compartilham a **mesma origem**, então encaixam perfeitame
 ### Suporte
 - Imprima `stl/04_suporte.stl` separado (cor à sua escolha). Depois é só **encaixar
   a placa na canaleta**.
-- Para imprimir os dois de uma vez, use `order_pay_set_120x180.3mf`.
+- Para imprimir os dois de uma vez, use `order_pay_set_100x150.3mf`.
 
 ## Regenerar / trocar o QR
 
 ```bash
 pip install pillow numpy opencv-python-headless trimesh shapely mapbox_earcut scipy qrcode manifold3d matplotlib
 cd cad/src
-python3 build_cad.py "https://app.tremdeminas.uk/menu/<ID>" 120 180 saida
-python3 build_stand.py 120 180 2.6
+python3 build_cad.py "https://app.tremdeminas.uk/menu/<ID>" 100 150 saida
+python3 build_stand.py 100 150 2.6
 ```
 
 Troque a URL e o tamanho (largura altura em mm) conforme necessário — o QR é gerado

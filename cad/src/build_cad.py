@@ -9,7 +9,7 @@ OUT = sys.argv[4] if len(sys.argv)>4 else 'v2'
 ppm = 24.0                                    # higher res for small part
 
 # ---- classify original poster art ----
-img=cv2.imread('poster.png'); H0,W0=img.shape[:2]
+img=cv2.imread('arte_original.png'); H0,W0=img.shape[:2]
 rgb=cv2.cvtColor(img,cv2.COLOR_BGR2RGB).astype(np.float32)
 centers=np.array([[31,17,10],[245,232,219],[160,88,41],[166,150,136],[90,70,56]],np.float32)
 cmap=np.array([0,1,2,1,0])
@@ -42,16 +42,32 @@ for r in range(n):
             p0=tl+ex*c+ey*r; p1=tl+ex*(c+1)+ey*r; p2=tl+ex*(c+1)+ey*(r+1); p3=tl+ex*c+ey*(r+1)
             cv2.fillConvexPoly(canvas,np.array([p0,p1,p2,p3],np.int32),0)
 
-# ---- thicken the tiny subtitle so it prints on a 0.2mm nozzle ----
-white=(canvas==1).astype(np.uint8)
-frac=white.mean(1); rp=np.where(frac>0.4)[0]
-if len(rp):
-    ptop=rp.min()
-    y0=max(0,int(ptop-14*ppm)); y1=int(ptop-1.0*ppm)   # subtitle band above QR panel
-    band=(canvas[y0:y1]==1).astype(np.uint8)
-    band=cv2.dilate(band,cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3)),iterations=1)
-    seg=canvas[y0:y1]; seg[band>0]=1; canvas[y0:y1]=seg
-    print(f"thickened subtitle band rows {y0}..{y1}")
+# ---- replace tiny subtitle with a cleaner, bolder font ----
+from PIL import Image as _Img, ImageDraw as _Dr, ImageFont as _Ft
+SUB_FONT="fonts/Lora-BoldItalic.ttf"
+SUB_LINES=["Scan, order, relax.","We bring it to your table."]
+wmask=(canvas==1).astype(np.uint8); omask=(canvas==2).astype(np.uint8)
+fr=wmask.mean(1); ptop=int(np.where(fr>0.4)[0].min())          # QR panel top
+orows=np.where(omask.mean(1)>0.02)[0]; faca_b=int(orows[orows<ptop].max())  # 'Faça' bottom
+btop=faca_b+int(1.6*ppm); bbot=ptop-int(1.6*ppm)
+bandH=bbot-btop
+maxw=0.66*CW; maxh=0.94*bandH
+_d=_Dr.Draw(_Img.new('L',(8,8)))
+def _fit():
+    for sz in range(int(0.10*CH),10,-1):
+        f=_Ft.truetype(SUB_FONT,sz); a,de=f.getmetrics(); lh=a+de; gap=int(0.20*lh)
+        if lh*2+gap>maxh: continue
+        w=max(_d.textlength(t,font=f) for t in SUB_LINES)
+        if w<=maxw: return f,lh,gap
+    f=_Ft.truetype(SUB_FONT,14); a,de=f.getmetrics(); return f,a+de,4
+font,lh,gap=_fit()
+canvas[btop:bbot,:]=0                                          # erase old subtitle -> brown
+mim=_Img.new('L',(CW,bandH),0); dr=_Dr.Draw(mim)
+total=lh*2+gap; y=(bandH-total)//2
+for t in SUB_LINES:
+    w=dr.textlength(t,font=font); dr.text(((CW-w)//2,y),t,font=font,fill=255); y+=lh+gap
+m=np.array(mim); seg=canvas[btop:bbot,:]; seg[m>128]=1; canvas[btop:bbot,:]=seg
+print(f"subtitle re-rendered with {SUB_FONT}, font px={font.size}, band {round(bandH/ppm,1)}mm")
 
 # verify decode
 pal=np.array([[31,17,10],[245,232,219],[160,88,41]],np.uint8)
