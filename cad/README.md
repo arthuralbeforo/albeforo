@@ -6,13 +6,24 @@ com troca de cor (Bambu Lab + AMS, ou troca manual de filamento por camada).
 
 ![mockup](preview/mockup.png)
 
+## Texto 100% vetorial
+
+Todos os textos são gerados a partir de **fontes vetoriais reais** (contornos lisos),
+não traçados de imagem — por isso as letras saem nítidas, sem serrilhado, e otimizadas
+para impressão. Fontes usadas:
+
+- **Order & Pay** → Gloock (serifa display, estilo do original)
+- **COUNTER | BALCÃO** e **@tremdeminas_uk** → Outfit (sans)
+- **Faça seu pedido.** → Lora Italic
+- **Scan, order, relax. / We bring it to your table.** → Lora BoldItalic
+
 ## QR code
 
-O QR é **gerado a partir da URL real** como geometria de módulos nítidos, então
-continua escaneável depois de impresso. Leitura validada na arte e na geometria final.
+O QR é gerado a partir da URL real como geometria de módulos nítidos, então continua
+escaneável depois de impresso. Leitura validada na arte e na geometria final.
 
 - Conteúdo: `https://app.tremdeminas.uk/menu/a9ca755a-b451-4786-91cb-a4630bbb17b2`
-- 37 × 37 módulos · módulo de ~1,38 mm nesta escala (lê fácil)
+- 37 × 37 módulos · módulo de ~1,38 mm nesta escala
 
 ## Especificações de impressão
 
@@ -23,13 +34,8 @@ continua escaneável depois de impresso. Leitura validada na arte e na geometria
 | Cores (AMS) | Marrom (fundo), Branco (texto e QR), Laranja (detalhes) |
 | Orientação da placa | Deitada, **frente para cima** (face colorida no topo) |
 | Suporte | Peça separada, ~88 × 51 × 36 mm, canaleta inclinada ~13° |
-| Bico recomendado | **0,2 mm** (frase pequena em Lora BoldItalic, traço ~0,4 mm) |
+| Bico recomendado | 0,2 mm (com 0,4 mm também imprime bem) |
 | Filamento sugerido | PLA (texturizado) |
-
-> **Fonte da frase pequena:** "Scan, order, relax / We bring it to your table"
-> foi reescrita em **Lora BoldItalic** (mais encorpada e maior) no lugar da fonte
-> fina original, que ficava picotada/feia na impressão. Agora imprime limpo até
-> em bico de 0,4 mm; com 0,2 mm o acabamento fica ainda melhor.
 
 > **Dica:** para melhor leitura do QR, mantenha bom contraste e evite filamentos
 > muito brilhantes na face.
@@ -37,8 +43,7 @@ continua escaneável depois de impresso. Leitura validada na arte e na geometria
 ## Suporte
 
 A placa **encaixa em pé** na canaleta inclinada do suporte (cavalete). Imprima o
-suporte separado, em pé na orientação modelada (não precisa de cor — pode ser só
-marrom). Veja o perfil lateral:
+suporte separado, em pé na orientação modelada (cor à sua escolha). Veja o perfil:
 
 ![suporte](preview/suporte_perfil.png)
 
@@ -46,22 +51,21 @@ marrom). Veja o perfil lateral:
 
 ```
 cad/
-├── order_pay_plaque.3mf       ← só a placa (3 cores) — abrir no Bambu Studio
-├── order_pay_set_100x150.3mf  ← placa (3 cores) + suporte juntos na mesa
+├── order_pay_plaque.3mf        ← só a placa (3 cores) — abrir no Bambu Studio
+├── order_pay_set_100x150.3mf   ← placa (3 cores) + suporte juntos na mesa
 ├── stl/
-│   ├── 01_marrom_base.stl     ← base + fundo + módulos escuros do QR  → MARROM
-│   ├── 02_branco.stl          ← texto, painel e módulos claros do QR  → BRANCO
-│   ├── 03_laranja.stl         ← "COUNTER | BALCÃO", "Faça seu pedido", pílula @  → LARANJA
-│   └── 04_suporte.stl         ← cavalete/base (imprimir separado)
+│   ├── 01_marrom_base.stl      ← base + fundo + módulos escuros do QR  → MARROM
+│   ├── 02_branco.stl           ← texto, painel e módulos claros do QR  → BRANCO
+│   ├── 03_laranja.stl          ← "COUNTER | BALCÃO", &, "Faça seu pedido", pílula @  → LARANJA
+│   └── 04_suporte.stl          ← cavalete/base (imprimir separado)
 ├── preview/
-│   ├── mockup.png             ← mockup da placa
-│   ├── design_flat.png        ← arte plana (vista de topo)
-│   └── suporte_perfil.png     ← perfil lateral do suporte + placa encaixada
+│   ├── mockup.png · design_flat.png · suporte_perfil.png
 └── src/
-    ├── build_cad.py           ← gera a placa: python3 build_cad.py "<URL>" 100 150 final
-    ├── build_stand.py         ← gera o suporte
-    ├── fonts/Lora-BoldItalic.ttf ← fonte da frase pequena
-    └── arte_original.png      ← arte de referência usada pelo script
+    ├── build_design.py         ← gera a placa (vetorial): build_design.py "<URL>" 100 150
+    ├── extrude.py              ← extruda a placa em STL/3MF
+    ├── build_stand.py          ← gera o suporte: build_stand.py 100 150 2.6
+    ├── vlib.py                 ← util: texto -> contorno vetorial (shapely)
+    └── fonts/                  ← fontes usadas (Gloock, Outfit, Lora Italic/BoldItalic)
 ```
 
 As 3 partes da placa compartilham a **mesma origem**, então encaixam perfeitamente.
@@ -75,16 +79,16 @@ As 3 partes da placa compartilham a **mesma origem**, então encaixam perfeitame
 3. Mantenha **frente para cima** (face do QR no topo da mesa). Fatie e imprima.
 
 ### Suporte
-- Imprima `stl/04_suporte.stl` separado (cor à sua escolha). Depois é só **encaixar
-  a placa na canaleta**.
+- Imprima `stl/04_suporte.stl` separado. Depois é só **encaixar a placa na canaleta**.
 - Para imprimir os dois de uma vez, use `order_pay_set_100x150.3mf`.
 
-## Regenerar / trocar o QR
+## Regenerar / trocar o QR ou o tamanho
 
 ```bash
 pip install pillow numpy opencv-python-headless trimesh shapely mapbox_earcut scipy qrcode manifold3d matplotlib
 cd cad/src
-python3 build_cad.py "https://app.tremdeminas.uk/menu/<ID>" 100 150 saida
+python3 build_design.py "https://app.tremdeminas.uk/menu/<ID>" 100 150   # gera vec_geom.pkl + preview
+python3 extrude.py                                                       # gera os STL/3MF
 python3 build_stand.py 100 150 2.6
 ```
 
