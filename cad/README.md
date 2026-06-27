@@ -23,7 +23,7 @@ O QR é gerado a partir da URL real como geometria de módulos nítidos, então 
 escaneável depois de impresso. Leitura validada na arte e na geometria final.
 
 - Conteúdo: `https://app.tremdeminas.uk/menu/a9ca755a-b451-4786-91cb-a4630bbb17b2`
-- 37 × 37 módulos · módulo de ~1,38 mm nesta escala
+- 37 × 37 módulos · módulo de ~1,62 mm nesta escala
 
 ## Especificações de impressão
 
