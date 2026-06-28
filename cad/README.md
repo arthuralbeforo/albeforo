@@ -26,10 +26,10 @@ Todos os textos são gerados a partir de **fontes vetoriais reais** (contornos l
 não traçados de imagem — por isso as letras saem nítidas, sem serrilhado, e otimizadas
 para impressão. Fontes usadas:
 
-- **Order & Pay** → Gloock (serifa display, estilo do original)
-- **COUNTER | BALCÃO** e **@tremdeminas_uk** → Outfit Bold (sans encorpada, imprime firme)
-- **Faça seu pedido.** → Lora Italic
-- **Scan, order, relax. / We bring it to your table.** → Lora BoldItalic
+- **Order & Pay** → Playfair Display Bold (igual ao original)
+- **COUNTER | BALCÃO** e **@tremdeminas_uk** → Outfit (sans fina, como o original)
+- **Faça seu pedido.** → Playfair Display Italic
+- **Scan, order, relax. / We bring it to your table.** → Playfair Display BoldItalic
 
 > **Placa maciça (sem ilhotas):** a placa é um bloco sólido de 3 mm; a cor só muda
 > nos 0,6 mm de cima (texto/QR embutidos no topo). Como há marrom sólido por baixo
@@ -84,7 +84,7 @@ cad/
     ├── extrude.py              ← extruda a placa em STL/3MF
     ├── build_stand.py          ← gera o suporte: build_stand.py 100 150 2.6
     ├── vlib.py                 ← util: texto -> contorno vetorial (shapely)
-    └── fonts/                  ← fontes usadas (Gloock, Outfit, Lora Italic/BoldItalic)
+    └── fonts/                  ← fontes (Playfair Display, Outfit)
 ```
 
 As 3 partes da placa compartilham a **mesma origem**, então encaixam perfeitamente.
