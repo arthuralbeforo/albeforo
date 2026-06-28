@@ -4,7 +4,19 @@ Arquivos CAD multicor da placa **"Order & Pay"** com QR code **funcional**, mais
 **suporte (cavalete)** para deixá-la em pé no balcão/mesa. Pronto para impressão 3D
 com troca de cor (Bambu Lab + AMS, ou troca manual de filamento por camada).
 
-![mockup](preview/mockup.png)
+![placa fatiada de verdade](preview/sliced_real.png)
+
+*Acima: a placa **fatiada de verdade** (caminhos reais de extrusão no PrusaSlicer),
+não um mockup. Letras sólidas e QR escaneável confirmados no G-code.*
+
+> ## ⚠️ Para imprimir bonito, 2 coisas obrigatórias
+> 1. **Use `order_pay_plaque.3mf`** — já é **UM objeto só** com as 3 cores. Não separe
+>    as cores em objetos distintos (senão as letras finas saem ocas).
+> 2. **Wall loops / Perímetros = 3** (ou mais). Com bico 0,2 mm, 3 paredes fecham o
+>    traço de ~0,6 mm das letras. Com 2 paredes elas ficam ocas no meio.
+>
+> Verifiquei isso **fatiando de verdade**: com 1 objeto + 3 paredes, as letras enchem
+> sólidas e o QR continua lendo.
 
 ## Texto 100% vetorial
 
@@ -78,15 +90,14 @@ As 3 partes da placa compartilham a **mesma origem**, então encaixam perfeitame
 ## Como imprimir
 
 ### Placa (multicor)
-1. Abra `order_pay_plaque.3mf` no **Bambu Studio** / OrcaSlicer.
-2. Selecione as 3 partes → **botão direito → "Assemble"/"Montar em um objeto"**
-   (assim o slicer fatia como um bloco sólido único e a cor muda por região).
-3. Atribua um filamento a cada parte: `brown` → marrom, `white` → branco,
-   `orange` → laranja.
-4. Mantenha **frente para cima** (face do QR no topo da mesa). Fatie e imprima.
+1. Abra `order_pay_plaque.3mf` no **Bambu Studio** / OrcaSlicer — ele já vem como
+   **um objeto com 3 partes coloridas** (`brown`/`white`/`orange`). Só atribua o
+   filamento de cada parte: marrom, branco e laranja.
+2. **Defina Wall loops / Perímetros = 3** (essencial — ver caixa no topo).
+3. Mantenha **frente para cima** (face do QR no topo). Fatie e imprima.
 
-**Ajustes recomendados (acabamento das letras):** *Seam position → Aligned*,
-*Top surface pattern → Monotonic*, *Top shell layers → 5*, *Wall loops → 3*.
+**Ajustes recomendados (acabamento):** *Seam position → Aligned*,
+*Top surface pattern → Monotonic*, *Top shell layers → 5*.
 
 ### Suporte
 - Imprima `stl/04_suporte.stl` separado. Depois é só **encaixar a placa na canaleta**.
