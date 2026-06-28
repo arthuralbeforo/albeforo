@@ -9,14 +9,16 @@ com troca de cor (Bambu Lab + AMS, ou troca manual de filamento por camada).
 *Acima: a placa **fatiada de verdade** (caminhos reais de extrusão no PrusaSlicer),
 não um mockup. Letras sólidas e QR escaneável confirmados no G-code.*
 
-> ## ⚠️ Para imprimir bonito, 2 coisas obrigatórias
-> 1. **Use `order_pay_plaque.3mf`** — já é **UM objeto só** com as 3 cores. Não separe
->    as cores em objetos distintos (senão as letras finas saem ocas).
-> 2. **Wall loops / Perímetros = 3** (ou mais). Com bico 0,2 mm, 3 paredes fecham o
->    traço de ~0,6 mm das letras. Com 2 paredes elas ficam ocas no meio.
->
-> Verifiquei isso **fatiando de verdade**: com 1 objeto + 3 paredes, as letras enchem
-> sólidas e o QR continua lendo.
+> ## ✅ Como abrir com as 3 cores no Bambu (AMS) — jeito que funciona
+> Não use o `.3mf` (ele abre tudo numa cor só). Faça assim com os **STLs**:
+> 1. Bambu Studio → **File → Import → Import 3MF/STL** e selecione os **3** arquivos
+>    de `cad/stl/`: `01_marrom_base.stl`, `02_branco.stl`, `03_laranja.stl`.
+> 2. Vai aparecer **"Load these files as a single object with multiple parts?" → Yes**.
+>    (Isso vira **1 objeto com 3 partes** — é o que faz as letras saírem sólidas.)
+> 3. No painel de objetos, abra as 3 partes e dê a cor de cada uma (pelo nome):
+>    `01_marrom` → marrom · `02_branco` → branco · `03_laranja` → laranja.
+> 4. **Wall loops / Paredes = 3** (senão as letras finas ficam ocas).
+> 5. Fatie e imprima. O suporte (`04_suporte.stl`) imprime separado, em marrom.
 
 ## Texto 100% vetorial
 
@@ -89,15 +91,10 @@ As 3 partes da placa compartilham a **mesma origem**, então encaixam perfeitame
 
 ## Como imprimir
 
-### Placa (multicor)
-1. Abra `order_pay_plaque.3mf` no **Bambu Studio** / OrcaSlicer — ele já vem como
-   **um objeto com 3 partes coloridas** (`brown`/`white`/`orange`). Só atribua o
-   filamento de cada parte: marrom, branco e laranja.
-2. **Defina Wall loops / Perímetros = 3** (essencial — ver caixa no topo).
-3. Mantenha **frente para cima** (face do QR no topo). Fatie e imprima.
+Siga a caixa **"Como abrir com as 3 cores no Bambu"** no topo (importar os 3 STLs
+como **um objeto com 3 partes**, dar a cor de cada parte e usar **3 paredes**).
 
-**Ajustes recomendados (acabamento):** *Seam position → Aligned*,
-*Top surface pattern → Monotonic*, *Top shell layers → 5*.
+Acabamento melhor: *Seam position → Aligned*, *Top surface pattern → Monotonic*.
 
 ### Suporte
 - Imprima `stl/04_suporte.stl` separado. Depois é só **encaixar a placa na canaleta**.
