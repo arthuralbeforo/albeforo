@@ -11,7 +11,7 @@ def polys(g):
 def extrude(g,z0,h):
     out=[]
     for p in polys(g):
-        p=simplify(p,0.02)
+        pass  # keep shared borders identical
         try:
             m=trimesh.creation.extrude_polygon(p,height=h); m.apply_translation([0,0,z0]); out.append(m)
         except Exception as e: print("warn",e)

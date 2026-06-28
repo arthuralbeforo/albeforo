@@ -18,7 +18,7 @@ white=[]; orange=[]
 
 # 1) COUNTER | BALCAO (orange, sans tracked)
 g=text_geom("COUNTER | BALCÃO",F("Outfit-Regular"),X(5.3),tracking=0.12)
-orange.append(place_center(g,CX,Y(140.0)))
+orange.append(place_center(g,CX,Y(141.0)))
 # 2) Order & Pay (Gloock)
 sz=X(10.6)
 go=text_geom("Order",F("Gloock-Regular"),sz); ga=text_geom("&",F("Gloock-Regular"),sz); gp=text_geom("Pay",F("Gloock-Regular"),sz)
@@ -27,22 +27,24 @@ tot=wo+sp+wa+sp+wp; x0=CX-tot/2
 go=translate(go,xoff=x0-go.bounds[0])
 ga=translate(ga,xoff=x0+wo+sp-ga.bounds[0])
 gp=translate(gp,xoff=x0+wo+sp+wa+sp-gp.bounds[0])
-grp=unary_union([go,ga,gp]); dy=Y(128.5)-(grp.bounds[1]+grp.bounds[3])/2
+grp=unary_union([go,ga,gp]); dy=Y(130.0)-(grp.bounds[1]+grp.bounds[3])/2
 white.append(translate(go,yoff=dy)); white.append(translate(gp,yoff=dy)); orange.append(translate(ga,yoff=dy))
 # 3) Faça seu pedido. (orange italic)
 g=text_geom("Faça seu pedido.",F("Lora-Italic"),X(7.2))
-orange.append(place_center(g,CX,Y(112.5)))
+orange.append(place_center(g,CX,Y(114.5)))
 # 4) subtitle (white Lora BoldItalic)
 g1=text_geom("Scan, order, relax.",F("Lora-BoldItalic"),X(4.4))
 g2=text_geom("We bring it to your table.",F("Lora-BoldItalic"),X(4.4))
-white.append(place_center(g1,CX,Y(104.0)))
-white.append(place_center(g2,CX,Y(98.2)))
+white.append(place_center(g1,CX,Y(106.0)))
+white.append(place_center(g2,CX,Y(100.8)))
 # 5) QR panel + modules (bigger, centered)
 qr=qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_M,border=0); qr.add_data(URL); qr.make(fit=True)
 mat=np.array(qr.get_matrix(),np.uint8); n=mat.shape[0]
 qr_w=X(60.0); mod=qr_w/n
-qr_top=Y(90.5); qx0=CX-qr_w/2
-panel=box(qx0-X(3.2),qr_top-qr_w-X(3.2),qx0+qr_w+X(3.2),qr_top+X(3.2)).buffer(X(3.0),join_style=1,resolution=20)
+mqr=X(3.5); rr=X(3.0)
+panel_top=Y(96.0); qr_top=panel_top-mqr; qx0=CX-qr_w/2
+pl=qx0-mqr; pr=qx0+qr_w+mqr; pb=qr_top-qr_w-mqr; pt=qr_top+mqr
+panel=box(pl+rr,pb+rr,pr-rr,pt-rr).buffer(rr,join_style=1,resolution=20)
 darks=[]
 for r in range(n):
     for c in range(n):
@@ -51,7 +53,7 @@ for r in range(n):
             darks.append(box(x,ytop-mod,x+mod,ytop))
 white.append(panel.difference(unary_union(darks)))
 # 6) Instagram pill fitted to content (icon + handle), bigger
-isz=X(6.2); pcy=Y(14.0)
+isz=X(6.2); pcy=Y(15.0)
 def ig_icon(icx):
     rad=isz*0.27
     out=box(icx-isz/2+rad,pcy-isz/2+rad,icx+isz/2-rad,pcy+isz/2-rad).buffer(rad,join_style=1,resolution=16)
@@ -69,9 +71,10 @@ pill_h=isz+X(3.4)
 pill=box(gx0-padx+pill_h/2, pcy-pill_h/2, gx0+content_w+padx-pill_h/2, pcy+pill_h/2).buffer(pill_h/2,join_style=1,resolution=24)
 orange.append(pill); white.append(ig); white.append(ht)
 
-W=unary_union(white).buffer(0)
-O=unary_union(orange).buffer(0).difference(W)
-W=W.intersection(plate); O=O.intersection(plate)
+from shapely import simplify as _simp
+W=_simp(unary_union(white).buffer(0),0.03).buffer(0).intersection(plate)
+O=_simp(unary_union(orange).buffer(0),0.03).buffer(0).intersection(plate)
+O=O.difference(W)                      # white wins; shared edges identical -> no gaps
 brownTop=plate.difference(W).difference(O)
 
 PP=22
