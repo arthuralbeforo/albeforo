@@ -17,6 +17,10 @@ para impressão. Fontes usadas:
 - **Faça seu pedido.** → Lora Italic
 - **Scan, order, relax. / We bring it to your table.** → Lora BoldItalic
 
+> **Por que alto-relevo:** texto e QR são levantados sobre o fundo marrom liso.
+> Isso imprime muito mais limpo do que texto "rente" (que deixa sulcos e falhas em
+> volta das letras). Cada letra vira um bloco sólido de topo plano.
+
 ## QR code
 
 O QR é gerado a partir da URL real como geometria de módulos nítidos, então continua
@@ -30,8 +34,9 @@ escaneável depois de impresso. Leitura validada na arte e na geometria final.
 | Item | Valor |
 |------|-------|
 | Tamanho da placa | **100 × 150 mm** |
-| Espessura da placa | **2,6 mm** (base marrom 2,0 mm + camada de cor 0,6 mm) |
+| Espessura da placa | **3,0 mm** (base marrom 2,2 mm + relevo 0,8 mm) |
 | Cores (AMS) | Marrom (fundo), Branco (texto e QR), Laranja (detalhes) |
+| Texto e QR | **Em alto-relevo** (levantados 0,8 mm sobre o fundo liso) |
 | Orientação da placa | Deitada, **frente para cima** (face colorida no topo) |
 | Suporte | Peça separada, ~88 × 51 × 36 mm, canaleta inclinada ~13° |
 | Bico recomendado | 0,2 mm (com 0,4 mm também imprime bem) |
@@ -89,7 +94,7 @@ pip install pillow numpy opencv-python-headless trimesh shapely mapbox_earcut sc
 cd cad/src
 python3 build_design.py "https://app.tremdeminas.uk/menu/<ID>" 100 150   # gera vec_geom.pkl + preview
 python3 extrude.py                                                       # gera os STL/3MF
-python3 build_stand.py 100 150 2.6
+python3 build_stand.py 100 150 3.0
 ```
 
 Troque a URL e o tamanho (largura altura em mm) conforme necessário — o QR é gerado
