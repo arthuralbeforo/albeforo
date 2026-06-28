@@ -17,7 +17,7 @@ plate=box(4*sx,4*sy,Wmm-4*sx,Hmm-4*sy).buffer(4*min(sx,sy),join_style=1,resoluti
 white=[]; orange=[]
 
 # 1) COUNTER | BALCAO (orange, sans tracked)
-g=text_geom("COUNTER | BALCÃO",F("Outfit-Regular"),X(5.3),tracking=0.12)
+g=text_geom("COUNTER | BALCÃO",F("Outfit-Bold"),X(5.0),tracking=0.10)
 orange.append(place_center(g,CX,Y(141.0)))
 # 2) Order & Pay (Gloock)
 sz=X(10.6)
@@ -61,7 +61,7 @@ def ig_icon(icx):
     ring=Point(icx,pcy).buffer(isz*0.265).difference(Point(icx,pcy).buffer(isz*0.265-isz*0.125))
     dot=Point(icx+isz*0.255,pcy+isz*0.255).buffer(isz*0.072)
     return unary_union([frame,ring,dot])
-ht=text_geom("@tremdeminas_uk",F("Outfit-Regular"),X(4.6))
+ht=text_geom("@tremdeminas_uk",F("Outfit-Bold"),X(4.4))
 htw=width_of(ht); gap=X(2.6); padx=X(5.0)
 content_w=isz+gap+htw
 gx0=CX-content_w/2

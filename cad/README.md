@@ -13,7 +13,7 @@ não traçados de imagem — por isso as letras saem nítidas, sem serrilhado, e
 para impressão. Fontes usadas:
 
 - **Order & Pay** → Gloock (serifa display, estilo do original)
-- **COUNTER | BALCÃO** e **@tremdeminas_uk** → Outfit (sans)
+- **COUNTER | BALCÃO** e **@tremdeminas_uk** → Outfit Bold (sans encorpada, imprime firme)
 - **Faça seu pedido.** → Lora Italic
 - **Scan, order, relax. / We bring it to your table.** → Lora BoldItalic
 
