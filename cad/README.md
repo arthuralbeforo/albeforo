@@ -17,9 +17,10 @@ para impressão. Fontes usadas:
 - **Faça seu pedido.** → Lora Italic
 - **Scan, order, relax. / We bring it to your table.** → Lora BoldItalic
 
-> **Por que alto-relevo:** texto e QR são levantados sobre o fundo marrom liso.
-> Isso imprime muito mais limpo do que texto "rente" (que deixa sulcos e falhas em
-> volta das letras). Cada letra vira um bloco sólido de topo plano.
+> **Placa maciça (sem ilhotas):** a placa é um bloco sólido de 3 mm; a cor só muda
+> nos 0,6 mm de cima (texto/QR embutidos no topo). Como há marrom sólido por baixo
+> e ao redor de cada letra, cada camada imprime cheia — sem as falhas que aparecem
+> quando o texto é levantado e fica "solto no ar".
 
 ## QR code
 
@@ -34,9 +35,8 @@ escaneável depois de impresso. Leitura validada na arte e na geometria final.
 | Item | Valor |
 |------|-------|
 | Tamanho da placa | **100 × 150 mm** |
-| Espessura da placa | **3,0 mm** (base marrom 2,2 mm + relevo 0,8 mm) |
+| Espessura da placa | **3,0 mm** (placa maciça; topo colorido nos últimos 0,6 mm) |
 | Cores (AMS) | Marrom (fundo), Branco (texto e QR), Laranja (detalhes) |
-| Texto e QR | **Em alto-relevo** (levantados 0,8 mm sobre o fundo liso) |
 | Orientação da placa | Deitada, **frente para cima** (face colorida no topo) |
 | Suporte | Peça separada, ~88 × 51 × 36 mm, canaleta inclinada ~13° |
 | Bico recomendado | 0,2 mm (com 0,4 mm também imprime bem) |
@@ -79,9 +79,14 @@ As 3 partes da placa compartilham a **mesma origem**, então encaixam perfeitame
 
 ### Placa (multicor)
 1. Abra `order_pay_plaque.3mf` no **Bambu Studio** / OrcaSlicer.
-2. Atribua um filamento a cada parte: `brown` → marrom, `white` → branco,
+2. Selecione as 3 partes → **botão direito → "Assemble"/"Montar em um objeto"**
+   (assim o slicer fatia como um bloco sólido único e a cor muda por região).
+3. Atribua um filamento a cada parte: `brown` → marrom, `white` → branco,
    `orange` → laranja.
-3. Mantenha **frente para cima** (face do QR no topo da mesa). Fatie e imprima.
+4. Mantenha **frente para cima** (face do QR no topo da mesa). Fatie e imprima.
+
+**Ajustes recomendados (acabamento das letras):** *Seam position → Aligned*,
+*Top surface pattern → Monotonic*, *Top shell layers → 5*, *Wall loops → 3*.
 
 ### Suporte
 - Imprima `stl/04_suporte.stl` separado. Depois é só **encaixar a placa na canaleta**.
